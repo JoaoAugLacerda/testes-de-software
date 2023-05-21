@@ -4,8 +4,8 @@ public class ContaCorrente extends Conta {
     private double saldoEuro;
     private double saldoDolar;
 
-    private static final double TAXA_EURO = 0.84; // taxa de conversão do real para euro
-    private static final double TAXA_DOLAR = 0.19; // taxa de conversão do real para dólar
+    public static final double TAXA_EURO = 0.84; // taxa de conversão do real para euro
+    public static final double TAXA_DOLAR = 0.19; // taxa de conversão do real para dólar
 
     public ContaCorrente(double saldoInicial) {
         super(saldoInicial);
@@ -56,5 +56,13 @@ public class ContaCorrente extends Conta {
 
     public double verSaldoEmprestimo() {
         return (emprestimo != null) ? emprestimo.getValor() : 0.0;
+    }
+
+    public static double getTaxaEuro() {
+        return TAXA_EURO;
+    }
+
+    public static double getTaxaDolar() {
+        return TAXA_DOLAR;
     }
 }

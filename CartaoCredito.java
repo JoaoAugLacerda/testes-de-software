@@ -20,4 +20,8 @@ public class CartaoCredito {
     public double verSaldo() {
         return limite - saldoUsado;
     }
+
+    public double getLimite() {
+        return this.limite;
+    }
 }
