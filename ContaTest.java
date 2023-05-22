@@ -121,18 +121,15 @@ public class ContaTest {
 
     @Test
     public void testUsarCartaoCredito_DentroDoLimite() {
-        // Cria o cartão de crédito
-        CartaoCredito cartao = new CartaoCredito();
+        // Cria um cartão de crédito com limite inicial
+        CartaoCredito cartaoCredito = new CartaoCredito();
 
-        // Usa o cartão de crédito
-        boolean sucesso = cartao.usarCartao(400.0);
+        // Usa o cartão de crédito para um valor dentro do limite
+        cartaoCredito.usarCartao(400.0);
 
-        // Verifica se a operação foi bem-sucedida
-        assertTrue(sucesso, "A operação deve ser bem-sucedida");
-
-        // Verifica se o limite do cartão de crédito foi reduzido pelo valor da operação
-        assertEquals(100.0, cartao.getLimite(),
-                "O limite do cartão de crédito deve ser reduzido pelo valor da operação");
+        // Verifica se o saldo do cartão de crédito foi reduzido pelo valor da operação
+        assertEquals(100.0, cartaoCredito.verSaldo(),
+                "O saldo do cartão de crédito deve ser reduzido pelo valor da operação");
     }
 
     @Test
@@ -193,4 +190,71 @@ public class ContaTest {
         // Verifica se o saldo da conta permaneceu o mesmo
         assertEquals(100.0, conta.verSaldoReal(), 0.001, "O saldo da conta deve permanecer o mesmo");
     }
+
+    @Test
+    public void testInvestirPoupanca() {
+        // Inicia a conta poupança com saldo inicial
+        Poupanca poupanca = new Poupanca(100.0);
+
+        // Investe um valor dentro do saldo
+        poupanca.investirPoupanca(50.0);
+
+        // Verifica se o saldo foi reduzido pelo valor investido
+        assertEquals(50.0, poupanca.verSaldo(), "O saldo deve ser reduzido pelo valor investido");
+
+        // Verifica se o saldo da poupança foi incrementado pelo valor investido
+        assertEquals(50.0, poupanca.saldoPoupanca(), "O saldo da poupança deve ser incrementado pelo valor investido");
+    }
+
+    @Test
+    public void testSacarInvestimento() {
+        // Inicia a conta poupança com saldo inicial
+        Poupanca poupanca = new Poupanca(100.0);
+
+        // Investe um valor
+        poupanca.investirPoupanca(50.0);
+
+        // Saca um valor dentro do saldo da poupança
+        poupanca.sacarInvestimento(20.0);
+
+        // Verifica se o saldo da poupança foi reduzido pelo valor sacado
+        assertEquals(30.0, poupanca.saldoPoupanca(), "O saldo da poupança deve ser reduzido pelo valor sacado");
+
+        // Verifica se o saldo foi incrementado pelo valor sacado
+        assertEquals(70.0, poupanca.verSaldo(), "O saldo deve ser incrementado pelo valor sacado");
+    }
+
+    @Test
+    public void testInvestirPoupanca_SaldoInsuficiente() {
+        // Inicia a conta poupança com saldo inicial
+        Poupanca poupanca = new Poupanca(100.0);
+
+        // Tenta investir um valor maior do que o saldo
+        poupanca.investirPoupanca(150.0);
+
+        // Verifica se o saldo continua o mesmo
+        assertEquals(100.0, poupanca.verSaldo(), "O saldo deve continuar o mesmo");
+
+        // Verifica se o saldo da poupança continua zero
+        assertEquals(0.0, poupanca.saldoPoupanca(), "O saldo da poupança deve continuar zero");
+    }
+
+    @Test
+    public void testSacarInvestimento_SaldoInsuficiente() {
+        // Inicia a conta poupança com saldo inicial
+        Poupanca poupanca = new Poupanca(100.0);
+
+        // Investe um valor
+        poupanca.investirPoupanca(50.0);
+
+        // Tenta sacar um valor maior do que o saldo da poupança
+        poupanca.sacarInvestimento(60.0);
+
+        // Verifica se o saldo da poupança continua o mesmo
+        assertEquals(50.0, poupanca.saldoPoupanca(), "O saldo da poupança deve continuar o mesmo");
+
+        // Verifica se o saldo continua o mesmo
+        assertEquals(50.0, poupanca.verSaldo(), "O saldo deve continuar o mesmo");
+    }
+
 }
